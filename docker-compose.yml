@@ -1,0 +1,21 @@
+services:
+  cantaloupe:
+    image: uclalibrary/cantaloupe:5.0.7-0
+    container_name: mini-iiif-cantaloupe
+    expose:
+      - "8182"
+    volumes:
+      - ./data/images:/images
+      - ./cantaloupe/cantaloupe.properties:/etc/cantaloupe/cantaloupe.properties
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: mini-iiif-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./data/manifests/:/var/www/manifests:ro
+    depends_on:
+      - cantaloupe

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useRef, useCallback } from 'react';
 import { useImageStore } from '@/lib/store';
-import type { ImageFile } from '@/lib/types';
+import type { ImageFile } from '@/types';
 import { Header } from '../layout/header';
 import { Toolbar } from './toolbar';
 import { ImageGrid } from './image-grid'

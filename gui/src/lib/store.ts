@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { ImageFile, Folder, ViewMode } from './types'
+import type { ImageFile, Folder, ViewMode } from '../types'
 
 interface ImageStore {
 

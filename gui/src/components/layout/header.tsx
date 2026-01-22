@@ -7,7 +7,7 @@ export function Header() {
     <header className="h-14 border-b border-border bg-linear-to-r from-cyan-600 via-blue-600 to-indigo-600 flex items-center px-4 gap-4">
       <div className="flex items-center gap-2 text-white">
         <Cloud className="size-6" />
-        <span className="font-semibold text-lg">CloudGallery</span>
+        <span className="font-semibold text-lg">Minimal IIIF</span>
       </div>
       
       <div className="flex-1 max-w-xl mx-auto">

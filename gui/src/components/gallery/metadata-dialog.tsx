@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import type { ImageFile } from '@/lib/types'
+import type { ImageFile } from '@/types'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

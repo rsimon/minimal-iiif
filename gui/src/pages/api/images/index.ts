@@ -1,48 +1,50 @@
 import type { APIRoute } from 'astro';
 import fs from 'fs/promises';
 import path from 'path';
+import { createImage } from './_utils/create-image';
+import type { ImageMetadata } from '@/types';
+import { IMAGES_DIR, META_DIR } from './_paths';
 
 export const prerender = false;
 
-const IMAGES_DIR = path.join(process.cwd(), '..', 'data', 'images');
-
 export const GET: APIRoute = async ({ url }) => {
   try {    
-    const page = parseInt(url.searchParams.get('page') || '1');
+    const offset = parseInt(url.searchParams.get('offset') || '0');
     const limit = parseInt(url.searchParams.get('limit') || '100');
     
-    const files = await fs.readdir(IMAGES_DIR);
-    const imageFiles = files.filter(f => /\.jpg$/i.test(f));
+    const metafiles = (await fs.readdir(META_DIR)).filter(f => f.endsWith('.json'));
     
-    const imagesWithStats = await Promise.all(
-      imageFiles.map(async (filename) => {
-        const filePath = path.join(IMAGES_DIR, filename);
-        const stats = await fs.stat(filePath);
-        return {
-          id: path.parse(filename).name,
-          filename,
-          size: stats.size,
-          modified: stats.mtime.toISOString(),
-        };
-      })
-    );
-    
-    imagesWithStats.sort((a, b) => a.filename.localeCompare(b.filename));
-    
-    const total = imagesWithStats.length;
-    const totalPages = Math.ceil(total / limit);
-    const start = (page - 1) * limit;
-    const end = start + limit;
-    const paginatedImages = imagesWithStats.slice(start, end);
+    const total = metafiles.length;
+
+    const all: ImageMetadata[] = [];
+
+    for (const m of metafiles) {
+      try {
+        const raw = await fs.readFile(path.join(META_DIR, m), 'utf8');
+        const metadata = JSON.parse(raw);
+
+        if (!metadata.id) {
+          console.error('Invalid metadata');
+          console.error(raw);
+          continue;
+        }
+          
+        all.push(metadata);
+      } catch {
+        console.error(`Error reading metadata: ${m}`);
+        continue;
+      }
+    }
+
+    all.sort((a, b) => a.filename.localeCompare(b.filename));  
+
+    const images = all.slice(offset, offset + limit);
     
     return new Response(JSON.stringify({
-      images: paginatedImages,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages,
-      },
+      total,
+      offset,
+      limit,
+      images
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -58,60 +60,44 @@ export const GET: APIRoute = async ({ url }) => {
   }
 };
 
-export const POST: APIRoute = async ({ request }) => {
-  try {    
-    const formData = await request.formData();
-    const files = formData.getAll('files');
-    
-    if (files.length === 0) {
-      return new Response(JSON.stringify({ 
-        error: 'No files provided' 
-      }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-    
-    const uploadedFiles = [];
-
-    console.log('Writing', files);
-    
-    for (const file of files) {
-      if (file instanceof File) {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const filename = file.name;
-        const filePath = path.join(IMAGES_DIR, filename);
-        
-        console.log('writing file');
-        await fs.writeFile(filePath, buffer);
-        console.log('done');
-        
-        uploadedFiles.push({
-          id: path.parse(filename).name,
-          filename,
-          size: buffer.length,
-        });
-      }
-    }
-    
-    return new Response(JSON.stringify({
-      success: true,
-      uploaded: uploadedFiles,
-      count: uploadedFiles.length,
-    }), {
-      status: 201,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
+export const POST: APIRoute = async ({ request }) => { 
+  const formData = await request.formData();
+  const files = formData.getAll('files');
+  
+  if (files.length === 0) {
     return new Response(JSON.stringify({ 
-      error: 'Failed to upload images',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      error: 'No image files in request' 
     }), {
-      status: 500,
+      status: 400,
       headers: { 'Content-Type': 'application/json' },
     });
   }
-};
+  
+  const uploaded: ImageMetadata[] = [];
+  const failed: { filename: string, reason: string }[] = [];
+
+  for (const file of files) {
+    if (file instanceof File) {
+      try {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const meta = await createImage(file.name, buffer);
+        uploaded.push(meta);
+      } catch (error) {
+        failed.push({ filename: file.name, reason: error.message });
+      }
+    } else {
+      failed.push({ filename: file, reason: 'Not a file' });
+    }
+  }
+  
+  return new Response(JSON.stringify({
+    uploaded,
+    failed
+  }), {
+    status: 201,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
 
 export const DELETE: APIRoute = async ({ request }) => {
   try {

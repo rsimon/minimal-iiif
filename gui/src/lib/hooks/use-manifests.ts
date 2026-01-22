@@ -1,7 +1,7 @@
 
 import { useCallback, useEffect } from 'react';
 import { useImageStore } from '../store';
-import type { Folder } from '../types';
+import type { Folder } from '../../types';
 
 const API_BASE = '/api';
 

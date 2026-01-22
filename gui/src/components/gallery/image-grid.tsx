@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { MoreVertical, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useImageStore } from '@/lib/store'
-import type { ImageFile } from '@/lib/types'
+import type { ImageFile } from '@/types'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input';
 import { useDragAndDrop, useImages } from '@/lib/hooks';
+import { IIIFPreview } from './iiif-preview';
 
 interface ImageCardProps {
   image: ImageFile
@@ -36,6 +37,7 @@ interface ImageCardProps {
 function ImageCard({ image, isSelected, onSelect, onDelete, onEditMetadata, onDragStart, onDragEnd, isDragging }: ImageCardProps) {
   const [showRenameDialog, setShowRenameDialog] = useState(false)
   const [newName, setNewName] = useState(image.name)
+  const [showPreview, setShowPreview] = useState(false)
   
   const handleRename = () => {
     if (newName.trim() && newName !== image.name) {
@@ -63,6 +65,10 @@ function ImageCard({ image, isSelected, onSelect, onDelete, onEditMetadata, onDr
             alt={image.name}
             className="object-cover w-full h-full"
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowPreview(true)
+            }}
           />
           
           {/* Selection checkbox */}
@@ -127,6 +133,12 @@ function ImageCard({ image, isSelected, onSelect, onDelete, onEditMetadata, onDr
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <IIIFPreview
+        image={image}
+        open={showPreview}
+        onOpenChange={setShowPreview}
+      />
     </>
   )
 }

@@ -1,7 +1,7 @@
 
 import { useCallback, useEffect } from 'react';
 import { useImageStore } from '../store';
-import type { ImageFile } from '../types'
+import type { ImageFile, ImageMetadata } from '../../types'
 
 const API_BASE = '/api';
 
@@ -25,21 +25,21 @@ export function useImages() {
       const data = await response.json()
       
       // Transform API response to ImageFile format
-      const images: ImageFile[] = data.images.map((img: any) => ({
+      const images: ImageFile[] = data.images.map((img: ImageMetadata) => ({
         id: img.id,
         name: img.filename,
         url: `http://localhost/iiif/2/${img.id}/full/max/0/default.jpg`, // Cantaloupe IIIF URL
-        width: 0, // We don't have this from the API yet
-        height: 0,
-        size: img.size,
-        uploadedAt: new Date(img.modified),
-        folderId: 'root', // Will be populated from manifests
+        width: img.width,
+        height: img.height,
+        size: img.fileSize,
+        uploadedAt: new Date(img.uploadedAt),
+        folderId: 'root'
       }))
       
       store._setImages(images, {
-        page: data.pagination.page,
-        totalPages: data.pagination.totalPages,
-        total: data.pagination.total
+        page: 1,
+        totalPages: 1,
+        total: data.total
       })
     } catch (error) {
       console.error('Error fetching images:', error)

@@ -10,7 +10,7 @@ interface ImageGridProps {
 
 export const ImageGrid = (props: ImageGridProps) => {
 
-  const { selectedImageIds } = useUIState();
+  const { selectedImageIds, setSelectedImage } = useUIState();
 
   const onDelete = (imageId: string) => {
 
@@ -23,7 +23,7 @@ export const ImageGrid = (props: ImageGridProps) => {
           key={image.id}
           image={image}
           isSelected={selectedImageIds.has(image.id)}
-          onSelect={() => {/* toggleImageSelection(image.id) */}}
+          onSelect={selected => setSelectedImage(image.id, selected)}
           onDelete={() => onDelete(image.id)} />
       ))}
     </div>

@@ -11,7 +11,7 @@ interface ImageCardProps {
 
   onDelete(): void;
 
-  onSelect(): void;
+  onSelect(selected: boolean): void;
 
 }
 
@@ -22,8 +22,6 @@ const THUMBNAIL_WIDTH = Math.ceil(THUMBNAIL_HEIGHT * THUMBNAIL_ASPECT);
 export const ImageCard = (props: ImageCardProps) => {
 
   const { filename, width, height, id } = props.image; 
-
-  const [isSelected, setIsSelected] = useState(false);
 
   const src = useMemo(() => {
     const sourceAspect = width / height;
@@ -52,11 +50,11 @@ export const ImageCard = (props: ImageCardProps) => {
 
         <div className={cn(
           'absolute top-3 left-3 transition-opacity',
-          isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          props.isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         )}>
           <Checkbox
-            checked={isSelected}
-            onCheckedChange={checked => setIsSelected(checked as boolean)}
+            checked={props.isSelected}
+            onCheckedChange={checked => props.onSelect(checked as boolean)}
             className="size-6 border-sky-950/40 rounded-full bg-white/60 data-[state=checked]:bg-green-600 data-[state=checked]:text-green-100 data-[state=checked]:border-green-100" />
         </div>
       </div>

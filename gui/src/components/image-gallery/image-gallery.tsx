@@ -27,7 +27,7 @@ export const ImageGallery = () => {
   }, []);
 
   return (
-    <SidebarProvider className="w-auto">
+    <SidebarProvider className="w-auto overflow-hidden">
       <div className="h-screen grow flex flex-col bg-background">
         <AppHeader />
 

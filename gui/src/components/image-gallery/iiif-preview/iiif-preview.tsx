@@ -49,11 +49,11 @@ export const IIIFPreview = (props: IIIFPreviewProps) => {
 
         <DialogClose 
           asChild
-          className="absolute top-4 right-4">
+          className="absolute top-2 right-2">
           <Button 
             variant="ghost"
-            className="bg-white/30 hover:bg-white/60 size-10 text-slate-950">
-            <X className="size-5" strokeWidth={1.5} />
+            className="bg-slate-950/50 hover:bg-slate-950/60 size-10 text-white hover:text-white">
+            <X className="size-5" />
           </Button>
         </DialogClose>
       </DialogContent>

@@ -11,6 +11,7 @@ export interface UIState {
 
   selectedImageIds: Set<string>;
   setSelectedImage: (id: string, selected: boolean) => void;
+  setSelectedImageIds: (ids: string[]) => void;
 
   viewMode: ViewMode;
   setViewMode: (mode: ViewMode) => void;
@@ -35,6 +36,7 @@ export const useUIState = create<UIState>((set) => ({
     
     return { selectedImageIds: newSelectedIds };
   }),
+  setSelectedImageIds: ids => set({ selectedImageIds: new Set(ids) }),
 
   viewMode: 'grid',
   setViewMode: mode => set({ viewMode: mode })

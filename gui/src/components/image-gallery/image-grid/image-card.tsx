@@ -49,7 +49,7 @@ export const ImageCard = (props: ImageCardProps) => {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 pointer-events-none" />
 
         <div className={cn(
-          'absolute top-3 left-3 transition-opacity',
+          'absolute top-3 left-3',
           props.isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         )}>
           <Checkbox

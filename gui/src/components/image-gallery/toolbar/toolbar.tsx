@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Home, SquareCheckBig, Trash2, Upload } from 'lucide-react';
-import { ViewToggle } from './view-toggle';
+import { SquareCheckBig, Trash2, Upload } from 'lucide-react';
 import { useUIState } from '@/hooks/use-ui-state';
 import { Separator } from '@/components/ui/separator';
+import type { ImageMetadata } from '@/types';
+import { ViewToggle } from './view-toggle';
 
 interface ToolbarProps {
+
+  images: ImageMetadata[];
 
   onClickUpload(): void;
 
@@ -19,6 +22,14 @@ export const Toolbar = (props: ToolbarProps) => {
   const setViewMode = useUIState(state => state.setViewMode);
 
   const selectedImageIds = useUIState(state => state.selectedImageIds);
+  const setSelectedImageIds = useUIState(state => state.setSelectedImageIds);
+
+  const onSelectAll = () => {
+    if (selectedImageIds.size === props.images.length)
+      setSelectedImageIds([]);
+    else 
+      setSelectedImageIds(props.images.map(i => i.id));
+  }
 
   return (
     <div className="h-16 border-b border-border bg-card flex items-center justify-between px-2.5">
@@ -39,8 +50,8 @@ export const Toolbar = (props: ToolbarProps) => {
         </Button>
 
         <Button 
-          variant="ghost" 
-          onClick={props.onClickUpload}>
+          variant="ghost"
+          onClick={onSelectAll}>
           <SquareCheckBig className="size-4" />
           Select All
         </Button>

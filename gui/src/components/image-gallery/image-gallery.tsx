@@ -29,6 +29,7 @@ export const ImageGallery = () => {
           <SidebarInset>
             <main className="grow flex flex-col min-h-0 bg-muted">  
               <Toolbar 
+                images={images}
                 onClickUpload={onClickUpload}
                 onClickDelete={onClickDelete} />
 

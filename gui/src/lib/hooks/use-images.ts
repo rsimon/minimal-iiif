@@ -1,6 +1,6 @@
 
 import { useCallback, useEffect } from 'react';
-import { useImageStore } from '../store';
+import { useImageStore } from '../store_old';
 import type { ImageFile, ImageMetadata } from '../../types'
 
 const API_BASE = '/api';

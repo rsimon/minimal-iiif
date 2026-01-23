@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useRef, useCallback } from 'react';
-import { useImageStore } from '@/lib/store';
+import { useImageStore } from '@/lib/store_old';
 import type { ImageFile } from '@/types';
 import { AppHeader } from '../layout/app-header';
 import { Toolbar } from './toolbar';

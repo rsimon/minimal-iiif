@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { MoreVertical, ArrowUpDown } from 'lucide-react'
-import { useImageStore } from '@/lib/store'
+import { useImageStore } from '@/lib/store_old'
 import type { ImageFile } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox';

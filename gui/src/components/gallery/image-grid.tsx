@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react'
 import { MoreVertical, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useImageStore } from '@/lib/store'
+import { useImageStore } from '@/lib/store_old'
 import type { ImageFile } from '@/types'
 import { Button } from '@/components/ui/button'
 import {

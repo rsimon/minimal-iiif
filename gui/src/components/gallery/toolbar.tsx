@@ -1,6 +1,6 @@
 import { Grid, List, Trash2, Upload, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useImageStore } from '@/lib/store'
+import { useImageStore } from '@/lib/store_old'
 import { Button } from '@/components/ui/button'
 import { SidebarTrigger } from '../ui/sidebar';
 

@@ -2,7 +2,7 @@ import React from "react"
 import { useState, useCallback, useRef } from 'react'
 import { Upload, ImageIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useImageStore } from '@/lib/store'
+import { useImageStore } from '@/lib/store_old'
 import { useImages, useToast } from "@/lib/hooks";
 
 interface DropZoneProps {

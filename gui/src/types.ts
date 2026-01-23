@@ -16,6 +16,18 @@ export interface ImageMetadata {
 
 }
 
+export interface APIListImagesResponse {
+
+  total: number;
+
+  offset: number;
+
+  limit: number;
+
+  images: ImageMetadata[];
+
+}
+
 // Cf.:
 // - https://github.com/lovell/sharp/blob/7b4c4762432b14c62676e860c8034b5cd326f464/lib/index.d.ts#L1915-L1940
 // - https://cantaloupe-project.github.io/manual/5.0/processors.html

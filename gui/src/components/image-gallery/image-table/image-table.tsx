@@ -113,11 +113,11 @@ export const ImageTable = (props: ImageTableProps) => {
               <TableCell className="p-4">{image.filename}</TableCell>
 
               <TableCell className="text-muted-foreground">
-                {image.width} × {image.height}
+                {image.width.toLocaleString()} × {image.height.toLocaleString()}
               </TableCell>
 
               <TableCell className="text-muted-foreground">
-                {image.fileSize}
+                {Math.round(image.fileSize / 1024).toLocaleString()} kB
               </TableCell>
 
               <TableCell className="text-muted-foreground">

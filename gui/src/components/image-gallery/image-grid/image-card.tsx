@@ -4,6 +4,8 @@ import { cn } from '@/lib/utils';
 import { getThumbnailURL } from '@/utils/get-thumbnail-url';
 import { useUIState } from '@/hooks/use-ui-state';
 import type { ImageMetadata } from '@/types';
+import { Button } from '@/components/ui/button';
+import { EllipsisVertical } from 'lucide-react';
 
 interface ImageCardProps {
 
@@ -55,10 +57,16 @@ export const ImageCard = (props: ImageCardProps) => {
         </div>
       </div>
 
-      <div className="px-3 py-4 flex items-center justify-between bg-white">
+      <div className="p-2 pl-3 flex items-center justify-between bg-white">
         <span className="text-sm font-medium text-card-foreground truncate flex-1">
           {props.image.filename}
         </span>
+
+        <Button
+          variant="ghost"
+          size="icon">
+          <EllipsisVertical />
+        </Button>
       </div>
     </div>
   )

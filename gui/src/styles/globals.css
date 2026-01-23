@@ -1,6 +1,5 @@
 
 @import 'tailwindcss';
-
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
@@ -49,14 +48,6 @@
   --color-chart-5: hsl(var(--chart-5));
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
   *,
   ::after,
@@ -122,6 +113,7 @@
     --chart-5: 340 75% 55%
   }
 }
+
 @layer base {
   * {
     @apply border-border;
@@ -134,10 +126,6 @@
 html, body {
   height: 100%;
 }
-
-/*
-  ---break---
-*/
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -180,10 +168,6 @@ html, body {
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/*
-  ---break---
-*/
-
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -220,10 +204,6 @@ html, body {
   --image-card-shadow: 220 14% 85%;
 }
 
-/*
-  ---break---
-*/
-
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -258,10 +238,6 @@ html, body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/*
-  ---break---
-*/
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -279,4 +255,23 @@ html, body {
 @utility image-card-shadow-hover {
   box-shadow: 0 4px 6px -1px hsl(var(--image-card-shadow) / 0.15),
               0 2px 4px -2px hsl(var(--image-card-shadow) / 0.1);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+@utility animate-scale-in {
+  animation: scale-in 0.15s ease-out;
 }

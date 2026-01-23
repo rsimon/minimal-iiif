@@ -5,10 +5,14 @@ import { SidebarInset, SidebarProvider } from '../ui/sidebar';
 import { Toolbar } from './toolbar';
 import { ImageGrid } from './image-grid';
 import { useImages } from '@/hooks/use-images';
+import { useUIState } from '@/hooks/use-ui-state';
+import { ImageTable } from './image-table';
 
 export const ImageGallery = () => {
 
   const { data: { images = [] } = {} } = useImages();
+
+  const viewMode = useUIState(state => state.viewMode);
 
   const onClickUpload = useCallback(() => {
 
@@ -34,7 +38,11 @@ export const ImageGallery = () => {
                 onClickDelete={onClickDelete} />
 
               <div className="flex-1 overflow-auto p-6">
-                <ImageGrid images={images} />
+                {viewMode === 'grid' ? (
+                  <ImageGrid images={images} />
+                ) : (
+                  <ImageTable images={images} />
+                )}
               </div>
             </main>
           </SidebarInset>

@@ -68,11 +68,11 @@ export const ImageCard = (props: ImageCardProps) => {
       ref={setNodeRef}     
       style={style} 
       className={cn(
-        'group rounded-lg overflow-hidden image-card-shadow border border-border cursor-grab active:cursor-grabbing',
+        'group rounded-lg bg-white image-card-shadow border border-border cursor-grab active:cursor-grabbing',
         isDragging ? 'z-50 opacity-30' : isInitialMount.current && 'transition-all duration-200 animate-fade-in'
       )}>
       <div 
-        className="relative aspect-4/3 p-1 bg-white"
+        className="relative aspect-4/3 p-1"
         onClick={onOpenPreview}>
         <div className="w-full h-full relative overflow-hidden rounded-sm">
           <img
@@ -93,7 +93,7 @@ export const ImageCard = (props: ImageCardProps) => {
         </div>
       </div>
 
-      <div className="p-1 pt-0 pl-3 flex items-center justify-between bg-white">
+      <div className="p-1 pt-0 pl-3 flex items-center justify-between">
         <span className="text-xs font-medium text-slate-950 truncate flex-1">
           {props.image.filename}
         </span>

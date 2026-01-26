@@ -1,5 +1,7 @@
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useDroppable } from '@dnd-kit/core';
+import { EllipsisVertical } from 'lucide-react';
 
 interface FolderCardProps {
 
@@ -17,17 +19,31 @@ export const FolderCard = (props: FolderCardProps) => {
   return (
     <div 
       ref={setNodeRef}
-      className={cn(
-        'px-4 py-6 flex flex-col items-center perspective-[1000px]',
-        isOver ? undefined: 'rotate-x-18 translate-y-1 shadow-lg'// : undefined
-      )}>
-      <div className="origin-bottom -rotate-x-30 translate-y-1 mt-2 relative bg-[linear-gradient(#c1c1c1,#b2b2b2)] w-full h-10/12 rounded-md shadow-xs
-        before:content-[''] before:absolute before:-top-6 before:left-1.5 before:w-2/3 before:h-6 before:bg-[#b2b2b2]
-        before:rounded-t-md">
+      className="group rounded-lg image-card-shadow border border-border bg-white">
+      <div className="relative aspect-4/3 p-1">
+        <div className="size-full relative rounded-sm bg-muted flex items-center justify-center">
+          <div className="relative w-4/12 h-5/12 perspective-[200px]">
+            <div className="absolute top-0.5 left-0 w-8/12 h-2.5 bg-[#b2b2b2] rounded-t" />
+            <div className="absolute top-2.5 w-full h-9/12 rounded shadow-sm bg-[#b2b2b2]" />
+
+            <div className={cn(
+              'absolute bottom-0 w-full h-10/12 origin-bottom rounded shadow-sm bg-[linear-gradient(#c1c1c1,#b2b2b2)]',
+              isOver ? '-rotate-x-40' : '-rotate-x-10'
+            )} />
+          </div>
+        </div>
       </div>
 
-      <div className="mt-2 text-xs font-medium text-slate-950 truncate flex-1">
-        My Folder
+      <div className="p-1 pt-0 pl-3 flex items-center justify-between">
+        <span className="text-xs font-medium text-slate-950 truncate flex-1">
+          My Folder
+        </span>
+
+        <Button
+          variant="ghost"
+          size="icon">
+          <EllipsisVertical />
+        </Button>
       </div>
     </div>
   )

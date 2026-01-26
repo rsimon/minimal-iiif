@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from "@dnd-kit/utilities";
 import { Checkbox } from '@/components/ui/checkbox';
@@ -25,6 +25,16 @@ const THUMBNAIL_HEIGHT = 400;
 const THUMBNAIL_WIDTH = Math.ceil(THUMBNAIL_HEIGHT * 4 / 3);
 
 export const ImageCard = (props: ImageCardProps) => {
+
+  // Keep track of mounting - this way we can keep the mount animation 
+  // when toggling between table and grid view, but have NO animation
+  // on drag-and-drop grid sorting.
+  const isInitialMount = useRef(true);
+  
+  useEffect(() => {
+    if (isInitialMount.current)
+      isInitialMount.current = false;
+  }, [])
 
   const {
     attributes,
@@ -59,7 +69,7 @@ export const ImageCard = (props: ImageCardProps) => {
       style={style} 
       className={cn(
         'group rounded-lg overflow-hidden image-card-shadow border border-border/50 cursor-grab active:cursor-grabbing',
-        isDragging ? 'z-50 opacity-30' : 'transition-all duration-200 animate-fade-in'
+        isDragging ? 'z-50 opacity-30' : isInitialMount.current && 'transition-all duration-200 animate-fade-in'
       )}>
       <div 
         className="relative aspect-4/3 overflow-hidden bg-muted"

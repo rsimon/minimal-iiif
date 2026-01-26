@@ -13,16 +13,23 @@ export const FolderCard = (props: FolderCardProps) => {
 
   const { isOver, setNodeRef } = useDroppable({
     id: props.id,
-    data: { type: 'folder', id: props.id }
+    data: { type: 'folder' }
   });
 
   return (
     <div 
       ref={setNodeRef}
-      className="group rounded-lg image-card-shadow border border-border bg-white">
+      className={cn(
+        'rounded-lg border border-border bg-white',
+        isOver ? 'ring-6 ring-slate-500/30' : 'image-card-shadow'
+      )}>
       <div className="relative aspect-4/3 p-1">
         <div className="size-full relative rounded-sm bg-muted flex items-center justify-center">
-          <div className="relative w-4/12 h-5/12 perspective-[200px]">
+          <div 
+            className={cn(
+              'relative w-4/12 h-5/12 perspective-[200px]',
+              isOver ? 'scale-110' : undefined
+            )}>
             <div className="absolute top-0.5 left-0 w-8/12 h-2.5 bg-[#b2b2b2] rounded-t" />
             <div className="absolute top-2.5 w-full h-9/12 rounded shadow-sm bg-[#b2b2b2]" />
 
@@ -36,7 +43,7 @@ export const FolderCard = (props: FolderCardProps) => {
 
       <div className="p-1 pt-0 pl-3 flex items-center justify-between">
         <span className="text-xs font-medium text-slate-950 truncate flex-1">
-          My Folder
+          My IIIF Manifest
         </span>
 
         <Button

@@ -11,9 +11,11 @@ import { EllipsisVertical } from 'lucide-react';
 
 interface ImageCardProps {
 
+  isDragged?: boolean;
+
   image: ImageMetadata;
   
-  isSelected: boolean;
+  isSelected?: boolean;
 
   onDelete(): void;
 
@@ -43,7 +45,10 @@ export const ImageCard = (props: ImageCardProps) => {
     transform,
     transition,
     isDragging
-  } = useSortable({ id: props.image.id });
+  } = useSortable({ 
+    id: props.image.id,
+    data: { type: 'image' }
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -69,7 +74,7 @@ export const ImageCard = (props: ImageCardProps) => {
       style={style} 
       className={cn(
         'group rounded-lg bg-white image-card-shadow border border-border cursor-grab active:cursor-grabbing',
-        isDragging ? 'z-50 opacity-30' : isInitialMount.current && 'transition-all duration-200 animate-fade-in'
+        props.isDragged ? 'opacity-30' : isDragging ? 'z-50 opacity-0' : isInitialMount.current && 'transition-all duration-200 animate-fade-in'
       )}>
       <div 
         className="relative aspect-4/3 p-1"

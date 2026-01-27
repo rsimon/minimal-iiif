@@ -61,8 +61,11 @@ export const GET: APIRoute = async ({ url }) => {
 };
 
 export const POST: APIRoute = async ({ request }) => { 
+  console.log('POST!');
+
+
   const formData = await request.formData();
-  const files = formData.getAll('files');
+  const files = [formData.getAll('file')];
   
   if (files.length === 0) {
     return new Response(JSON.stringify({ 

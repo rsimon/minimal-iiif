@@ -8,7 +8,7 @@ import { Toolbar } from './toolbar';
 import { ImageGrid } from './image-grid';
 import { ImageTable } from './image-table';
 import { IIIFPreview } from './iiif-preview';
-import { UploadDropzone } from './upload-dropzone';
+import { UploadDropzone, UploadDropzoneOverlay } from './upload';
 
 export const ImageGallery = () => {
 
@@ -42,17 +42,15 @@ export const ImageGallery = () => {
                 onClickUpload={onClickUpload}
                 onClickDelete={onClickDelete} />
 
-              <div className="grow overflow-hidden">
-                <UploadDropzone className="sticky inset-0 size-full pointer-none">
-                  <div className="-top-full h-full p-6 overflow-y-auto">
-                    {viewMode === 'grid' ? (
-                      <ImageGrid images={images} />
-                    ) : (
-                      <ImageTable images={images} />
-                    )}
-                  </div>
-                </UploadDropzone>
-              </div>
+              <UploadDropzone className="grow overflow-hidden">
+                <div className="-top-full h-full p-6 overflow-y-auto">
+                  {viewMode === 'grid' ? (
+                    <ImageGrid images={images} />
+                  ) : (
+                    <ImageTable images={images} />
+                  )}
+                </div>
+              </UploadDropzone>
             </main>
           </SidebarInset>
         </div>

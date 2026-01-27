@@ -4,6 +4,7 @@ import { useUIState } from '@/hooks/use-ui-state';
 import type { ImageMetadata } from '@/types';
 import { ImageCard } from './image-card';
 import { FolderCard } from './folder-card';
+import { DragPreview } from './drag-preview';
 import { 
   closestCenter,
   DndContext, 
@@ -14,7 +15,6 @@ import {
   useSensors, 
   useDndContext
 } from '@dnd-kit/core';
-import { DragPreview } from './drag-preview';
 
 interface ImageGridProps {
 

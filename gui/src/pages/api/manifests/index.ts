@@ -1,65 +1,28 @@
 import type { APIRoute } from 'astro';
 import fs from 'fs/promises';
 import path from 'path';
+import { listManifests } from './_utils';
 
 export const prerender = false;
 
-const MANIFESTS_DIR = path.join(process.cwd(), '..', 'data', 'manifests');
+export const MANIFESTS_DIR = path.join(process.cwd(), '..', 'data', 'manifests');
 
-export const GET: APIRoute = async () => {
-  try {    
-    const files = await fs.readdir(MANIFESTS_DIR);
-    const manifestFiles = files.filter(f => f.endsWith('.json'));
+export const GET: APIRoute = async ({ url }) => {
+  const offset = parseInt(url.searchParams.get('offset') || '0');
+  const limit = parseInt(url.searchParams.get('limit') || '100');
     
-    const manifests = await Promise.all(
-      manifestFiles.map(async (filename) => {
-        const filePath = path.join(MANIFESTS_DIR, filename);
-        const stats = await fs.stat(filePath);
-        const content = await fs.readFile(filePath, 'utf-8');
-        
-        let label = filename;
+  const { manifests, total } = await listManifests(offset, limit);
 
-        try {
-          const json = JSON.parse(content);
-          // Try to extract label from IIIF manifest
-          if (json.label) {
-            label = typeof json.label === 'string' 
-              ? json.label 
-              : json.label['en']?.[0] || json.label['@value'] || filename;
-          }
-        } catch {
-          // If JSON parsing fails, just use filename
-        }
-        
-        return {
-          id: path.parse(filename).name,
-          filename,
-          label,
-          size: stats.size,
-          modified: stats.mtime.toISOString(),
-        };
-      })
-    );
-    
-    manifests.sort((a, b) => a.filename.localeCompare(b.filename));
-    
-    return new Response(JSON.stringify({
-      manifests,
-      total: manifests.length,
-    }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ 
-      error: 'Failed to list manifests',
-      message: error instanceof Error ? error.message : 'Unknown error'
-    }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-};
+  return new Response(JSON.stringify({
+    total,
+    offset,
+    limit,
+    manifests
+  }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
 
 export const POST: APIRoute = async ({ request }) => {
   try {    

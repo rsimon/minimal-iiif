@@ -1,3 +1,5 @@
+export type ViewMode = 'grid' | 'table';
+
 export interface ImageMetadata {
 
   id: string;
@@ -33,36 +35,26 @@ export interface APIListImagesResponse {
 // - https://cantaloupe-project.github.io/manual/5.0/processors.html
 export type ImageFormat = 'jpeg' | 'jpg' | 'jp2' | 'png' | 'tiff' | 'tif' | 'webp';
 
-export interface ImageFile {
-  
-  id: string;
-  
-  name: string;
-  
-  url: string;
-  
-  width: number;
-  
-  height: number;
-  
-  size: number;
-  
-  uploadedAt: Date;
-  
-  folderId: string;
-
-}
-
-export interface Folder {
+export interface ManifestMetadata {
 
   id: string;
 
   name: string;
 
-  parentId: string | null;
+}
 
-  order: number;
+export interface APIListManifestsResponse {
+
+  total: number;
+
+  offset: number;
+
+  limit: number;
+
+  manifests: ManifestMetadata[];
 
 }
 
-export type ViewMode = 'grid' | 'table';
+
+
+

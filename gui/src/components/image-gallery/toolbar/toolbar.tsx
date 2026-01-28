@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { SquareCheckBig, Trash2 } from 'lucide-react';
+import { Braces, Plus, SquareCheckBig, Trash2 } from 'lucide-react';
 import type Uppy from '@uppy/core';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -16,6 +16,8 @@ interface ToolbarProps {
   uppy: Uppy;
 
   onDelete(): void;
+
+  onAddManifest(): void;
 
 }
 
@@ -46,11 +48,15 @@ export const Toolbar = (props: ToolbarProps) => {
       <div className="flex items-center gap-2">
         <SidebarTrigger className="mb-px" />
 
-        <nav className="text-slate-700 mr-4 text-sm font">
+        <nav className="text-slate-700 mr-8 text-sm font">
           All Images
         </nav>
 
-        <Separator orientation="vertical" />
+        <Button
+          onClick={props.onAddManifest}>
+          <Plus className="size-4" />
+          New Manifest
+        </Button>
 
         <UploadButton 
           onUpload={onUpload} />

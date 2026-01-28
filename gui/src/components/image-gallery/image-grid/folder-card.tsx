@@ -20,7 +20,7 @@ export const FolderCard = (props: FolderCardProps) => {
     <div 
       ref={setNodeRef}
       className={cn(
-        'rounded-lg border border-border bg-white',
+        'group rounded-lg border border-border bg-white',
         isOver ? 'ring-6 ring-slate-500/30' : 'image-card-shadow'
       )}>
       <div className="relative aspect-4/3 p-1">
@@ -34,7 +34,7 @@ export const FolderCard = (props: FolderCardProps) => {
             <div className="absolute top-2.5 w-full h-9/12 rounded shadow-sm bg-[#b2b2b2]" />
 
             <div className={cn(
-              'absolute bottom-0 w-full h-10/12 origin-bottom rounded shadow-sm bg-[linear-gradient(#c1c1c1,#b2b2b2)]',
+              'absolute transition-transform duration-200 bottom-0 w-full h-10/12 origin-bottom rounded shadow-sm bg-[linear-gradient(#c1c1c1,#b2b2b2)] group-hover:-rotate-x-40',
               isOver ? '-rotate-x-40' : '-rotate-x-10'
             )} />
           </div>

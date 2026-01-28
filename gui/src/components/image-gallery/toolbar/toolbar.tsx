@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import type Uppy from '@uppy/core';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import type { ImageMetadata } from '@/types';
+import { useDirectory } from '@/hooks/use-directory';
 import { ViewModeToggle } from './toggle-view-mode/view-mode-toggle';
 import { UploadButton } from './button-upload/upload-button';
 import { NewManifestButton } from './button-new-manifest';
@@ -10,13 +10,13 @@ import { SelectAllButton } from './button-select-all';
 
 interface ToolbarProps {
 
-  images: ImageMetadata[];
-
   uppy: Uppy;
 
 }
 
 export const Toolbar = (props: ToolbarProps) => {
+
+  const { images } = useDirectory();
 
   const onUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
@@ -40,7 +40,7 @@ export const Toolbar = (props: ToolbarProps) => {
           onUpload={onUpload} />
 
         <SelectAllButton 
-          images={props.images} />
+          images={images} />
 
         <DeleteSelectedButton />
       </div>

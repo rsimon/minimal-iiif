@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { arrayMove, SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useUIState } from '@/hooks/use-ui-state';
+import { useDirectory } from '@/hooks/use-directory';
 import type { ImageMetadata } from '@/types';
 import { ImageCard } from './image-card';
-import { FolderCard } from './folder-card';
 import { DragPreview } from './drag-preview';
 import { 
   closestCenter,
@@ -15,14 +15,15 @@ import {
   useSensors, 
   useDndContext
 } from '@dnd-kit/core';
+import { FolderCard } from './folder-card';
 
-interface ImageGridProps {
+
+interface SortableImageListProps {
 
   images: ImageMetadata[];
-
 }
 
-const SortableImageList = (props: ImageGridProps) => {
+const SortableImageList = (props: SortableImageListProps) => {
 
   const { selectedImageIds, setSelectedImage } = useUIState();
 
@@ -73,9 +74,9 @@ const measuringConfig = {
   }
 };
 
-export const ImageGrid = (props: ImageGridProps) => {
+export const ImageGrid = () => {
 
-  const [sortedImages, setSortedImags] = useState(props.images);
+  const { manifests, images } = useDirectory();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -85,9 +86,12 @@ export const ImageGrid = (props: ImageGridProps) => {
     })
   );
 
+  // TODO just for testing - dummy dnd sorting!
+  const [sortedImages, setSortedImages] = useState(images);
+
   useEffect(() => {
-    setSortedImags(props.images);
-  }, [props.images.map(i => i.id).join()]);
+    setSortedImages(images);
+  }, [images.map(i => i.id).join()]);
 
   const onDragEnd = (event: any) => {
     const { active, over } = event;
@@ -95,7 +99,7 @@ export const ImageGrid = (props: ImageGridProps) => {
     if (over.data.current.type === 'folder') return;
 
     if (active.id !== over.id) {
-      setSortedImags(items => {
+      setSortedImages(items => {
         const oldIndex = items.findIndex(i => i.id === active.id);
         const newIndex = items.findIndex(i => i.id === over.id);
         return arrayMove(items, oldIndex, newIndex);
@@ -110,6 +114,11 @@ export const ImageGrid = (props: ImageGridProps) => {
       sensors={sensors}
       onDragEnd={onDragEnd}>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        {manifests.map(m => (
+          <FolderCard 
+            key={m.id} 
+            manifest={m} />
+        ))}
         <SortableImageList images={sortedImages} />
       </div>
     </DndContext>

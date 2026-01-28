@@ -3,6 +3,8 @@ import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useUIState } from '@/hooks/use-ui-state';
+import { useDirectory } from '@/hooks/use-directory';
+import { getThumbnailURL } from '@/utils/get-thumbnail-url';
 import type { ImageMetadata } from '@/types';
 import { 
   Table, 
@@ -12,15 +14,10 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { getThumbnailURL } from '@/utils/get-thumbnail-url';
 
-interface ImageTableProps {
+export const ImageTable = () => {
 
-  images: ImageMetadata[];
-
-}
-
-export const ImageTable = (props: ImageTableProps) => {
+  const { images } = useDirectory();
 
   const selectedImageIds = useUIState(state => state.selectedImageIds);
   const setSelectedImage = useUIState(state => state.setSelectedImage);
@@ -88,7 +85,7 @@ export const ImageTable = (props: ImageTableProps) => {
         </TableHeader>
 
         <TableBody>
-          {props.images.map(image => (
+          {images.map(image => (
             <TableRow 
               key={image.id}
               data-state={selectedImageIds.has(image.id) ? 'selected' : undefined}

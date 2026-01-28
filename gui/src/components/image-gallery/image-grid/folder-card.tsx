@@ -1,18 +1,19 @@
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { useDroppable } from '@dnd-kit/core';
 import { EllipsisVertical } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import type { ManifestMetadata } from '@/types';
 
 interface FolderCardProps {
 
-  id: string;
+  manifest: ManifestMetadata;
 
 }
 
 export const FolderCard = (props: FolderCardProps) => {
 
   const { isOver, setNodeRef } = useDroppable({
-    id: props.id,
+    id: props.manifest.id,
     data: { type: 'folder' }
   });
 
@@ -43,7 +44,7 @@ export const FolderCard = (props: FolderCardProps) => {
 
       <div className="p-1 pt-0 pl-3 flex items-center justify-between">
         <span className="text-xs font-medium text-slate-950 truncate flex-1">
-          My IIIF Manifest
+          {props.manifest.name}
         </span>
 
         <Button

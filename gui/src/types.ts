@@ -55,6 +55,36 @@ export interface APIListManifestsResponse {
 
 }
 
+export interface APIListDirectoryResponse {
+
+  total: number;
+
+  offset: number;
+
+  limit: number;
+
+  items: APIListDirectoryResponseItem[];
+
+}
+
+interface APIListDirectoryResponseManifestItem extends ManifestMetadata {
+
+  type: 'manifest'
+
+}
+
+interface APIListDirectoryResponseImageItem extends ImageMetadata {
+
+  type: 'image'
+
+}
+
+export type APIListDirectoryResponseItem = 
+  APIListDirectoryResponseManifestItem | APIListDirectoryResponseImageItem;
+
+
+
+
 
 
 

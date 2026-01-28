@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useManifests } from '@/hooks/use-manifests';
 import {
   Dialog,
   DialogContent,
@@ -7,10 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { useImages } from '@/lib/hooks'
+} from '@/components/ui/dialog';
 
 interface NewManifestDialogProps {
 
@@ -23,10 +23,10 @@ interface NewManifestDialogProps {
 export const NewManifestDialog = (props: NewManifestDialogProps) => {
 
   const [name, setName] = useState('');
+
+  const { createManifest } = useManifests();
   
-  const onSave = () => {
-    
-  }
+  const onSave = () => createManifest(name);
 
   return (
     <Dialog open={props.open} onOpenChange={open => { if (!open) props.onClose() }}>

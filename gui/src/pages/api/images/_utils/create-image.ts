@@ -15,7 +15,7 @@ const ALLOWED_FORMATS = new Set([
   'webp'
 ]);
 
-const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10)
+const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10);
 
 export const createImage = async (filename: string, buffer: Buffer): Promise<ImageMetadata> => {
   const id = nanoid();
